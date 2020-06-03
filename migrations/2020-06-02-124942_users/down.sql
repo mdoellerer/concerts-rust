@@ -1,0 +1,3 @@
+
+DROP SEQUENCE IF EXISTS users_id_seq;
+DROP SEQUENCE IF EXISTS public.users;
