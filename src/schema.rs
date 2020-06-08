@@ -3,8 +3,8 @@ table! {
         id -> Int8,
         name -> Varchar,
         country -> Varchar,
-        created_at -> Nullable<Timestamp>,
-        updated_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
     }
 }
 
@@ -12,8 +12,8 @@ table! {
     concert_types (id) {
         id -> Int8,
         description -> Varchar,
-        created_at -> Nullable<Timestamp>,
-        updated_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
     }
 }
 
@@ -22,8 +22,8 @@ table! {
         id -> Int8,
         concert_date -> Date,
         setlist -> Nullable<Text>,
-        created_at -> Nullable<Timestamp>,
-        updated_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
         concert_type_id -> Int8,
         artist_id -> Int8,
         venue_id -> Int8,
@@ -38,8 +38,8 @@ table! {
         email_verified_at -> Nullable<Timestamp>,
         password -> Varchar,
         remember_token -> Nullable<Varchar>,
-        created_at -> Nullable<Timestamp>,
-        updated_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
         api_token -> Nullable<Varchar>,
     }
 }
@@ -50,8 +50,8 @@ table! {
         name -> Varchar,
         city -> Varchar,
         country -> Varchar,
-        created_at -> Nullable<Timestamp>,
-        updated_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
     }
 }
 

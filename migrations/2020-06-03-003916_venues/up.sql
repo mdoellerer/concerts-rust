@@ -6,8 +6,8 @@ CREATE TABLE public.venues
     name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     city character varying(255) COLLATE pg_catalog."default" NOT NULL,
     country character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    created_at timestamp(0) without time zone,
-    updated_at timestamp(0) without time zone,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT venues_pkey PRIMARY KEY (id)
 )
 
