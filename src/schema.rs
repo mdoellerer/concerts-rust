@@ -24,7 +24,7 @@ table! {
         setlist -> Nullable<Text>,
         created_at -> Nullable<Timestamp>,
         updated_at -> Nullable<Timestamp>,
-        concert_type_id -> Int4,
+        concert_type_id -> Int8,
         artist_id -> Int8,
         venue_id -> Int8,
     }

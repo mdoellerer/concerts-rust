@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize, Queryable)]
 pub struct Artist {
-    pub id : i32,
+    pub id : i64,
     pub name : String,
     pub country : String,
     pub created_at : chrono::NaiveDateTime,
@@ -23,7 +23,7 @@ pub struct NewArtist<'a> {
 
 #[derive(Debug, Serialize, Deserialize, Queryable)]
 pub struct Venue {
-    pub id : i32,
+    pub id : i64,
     pub name : String,
     pub city : String,
     pub country : String,
@@ -44,7 +44,7 @@ pub struct NewVenue<'a> {
 
 #[derive(Debug, Serialize, Deserialize, Queryable)]
 pub struct ConcertType {
-    pub id : i32,
+    pub id : i64,
     pub dexcription : String,
     pub created_at : chrono::NaiveDateTime,
     pub updated_at : chrono::NaiveDateTime,
@@ -61,12 +61,12 @@ pub struct NewConcertType<'a> {
 
 #[derive(Debug, Serialize, Deserialize, Queryable)]
 pub struct Concert {
-    pub id : i32,
+    pub id : i64,
     pub concert_date : chrono::NaiveDateTime,
     pub setlist : String,
-    pub artist_id : i32,
-    pub venue_id : i32,
-    pub concert_type_id : i32,
+    pub artist_id : i64,
+    pub venue_id : i64,
+    pub concert_type_id : i64,
     pub created_at : chrono::NaiveDateTime,
     pub updated_at : chrono::NaiveDateTime,
 }
@@ -74,11 +74,11 @@ pub struct Concert {
 #[derive(Insertable, Debug)]
 #[table_name = "concerts"]
 pub struct NewConcert<'a> {
-    pub concert_date: chrono::NaiveDateTime,,
+    pub concert_date: chrono::NaiveDate,
     pub setlist: &'a str,
-    pub artist_id : i32,
-    pub venue_id : i32,
-    pub concert_type_id : i32,
+    pub artist_id : i64,
+    pub venue_id : i64,
+    pub concert_type_id : i64,
     pub created_at : chrono::NaiveDateTime,
     pub updated_at : chrono::NaiveDateTime,
 }
@@ -86,7 +86,7 @@ pub struct NewConcert<'a> {
 
 #[derive(Debug, Serialize, Deserialize, Queryable)]
 pub struct User {
-    pub id : i32,
+    pub id : i64,
     pub name : String,
     pub email : String,
     pub email_verified_at : chrono::NaiveDateTime,

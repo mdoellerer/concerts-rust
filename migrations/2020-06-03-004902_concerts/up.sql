@@ -7,7 +7,7 @@ CREATE TABLE public.concerts
     setlist text COLLATE pg_catalog."default",
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone,
-    concert_type_id integer NOT NULL,
+    concert_type_id bigint NOT NULL,
     artist_id bigint NOT NULL,
     venue_id bigint NOT NULL,
     CONSTRAINT concerts_pkey PRIMARY KEY (id),

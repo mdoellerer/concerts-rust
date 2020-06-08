@@ -1,3 +1,7 @@
+use super::models;
+use super::schema;
+use super::Pool;
+
 pub mod index;
 
 pub mod artists;

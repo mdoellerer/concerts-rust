@@ -1,4 +1,13 @@
-use actix_web::{Responder};
+use super::models::{Artist, NewArtist};
+use super::schema::artists::dsl::*;
+use super::Pool;
+use diesel::QueryDsl;
+use diesel::RunQueryDsl;
+use actix_web::{web, Error, HttpResponse, Responder};
+use diesel::dsl::{delete, insert_into};
+use serde::{Deserialize, Serialize};
+use std::vec::Vec;
+
 
 pub async fn get_artists() -> impl Responder {
     format!("GET LIST")

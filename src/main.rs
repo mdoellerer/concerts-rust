@@ -1,5 +1,10 @@
 
+#[macro_use]
+extern crate diesel;
+
 mod handlers;
+mod models;
+pub mod schema;
 
 use handlers::index;
 use handlers::artists;
