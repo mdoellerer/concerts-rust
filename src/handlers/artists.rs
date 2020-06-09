@@ -12,7 +12,7 @@ use std::vec::Vec;
 pub async fn get_artists(db: web::Data<Pool>) -> Result<HttpResponse, Error> {
     Ok(web::block(move || db_get_all_artists(db))
         .await
-        .map(|user| HttpResponse::Ok().json(user))
+        .map(|artist| HttpResponse::Ok().json(artist))
         .map_err(|_| HttpResponse::InternalServerError())?)
 }
 
@@ -27,7 +27,7 @@ pub async fn get_artist_by_id(db: web::Data<Pool>,artist_id: web::Path<i64>,) ->
     Ok(
         web::block(move || db_get_artist_by_id(db, artist_id.into_inner()))
             .await
-            .map(|user| HttpResponse::Ok().json(user))
+            .map(|artist| HttpResponse::Ok().json(artist))
             .map_err(|_| HttpResponse::InternalServerError())?,
     )
 }
@@ -39,13 +39,13 @@ fn db_get_artist_by_id(pool: web::Data<Pool>, artist_id: i64) -> Result<Artist, 
 
 // Handler for POST /artists
 pub async fn add_artist(db: web::Data<Pool>, item: web::Json<InputArtist>,) -> Result<HttpResponse, Error> {
-    Ok(web::block(move || db_add_single_user(db, item))
+    Ok(web::block(move || db_add_single_artist(db, item))
         .await
-        .map(|user| HttpResponse::Created().json(user))
+        .map(|artist| HttpResponse::Created().json(artist))
         .map_err(|_| HttpResponse::InternalServerError())?)
 }
 
-fn db_add_single_user(db: web::Data<Pool>, item: web::Json<InputArtist>,) -> Result<Artist, diesel::result::Error> {
+fn db_add_single_artist(db: web::Data<Pool>, item: web::Json<InputArtist>,) -> Result<Artist, diesel::result::Error> {
     let conn = db.get().unwrap();
     let new_artist = NewArtist {
         name: &item.name,
@@ -59,13 +59,13 @@ fn db_add_single_user(db: web::Data<Pool>, item: web::Json<InputArtist>,) -> Res
 
 // Handler for PATCH /artists/{id}
 pub async fn edit_artist(db: web::Data<Pool>, artist_id: web::Path<i64>, item: web::Json<InputArtist>,) -> Result<HttpResponse, Error> {
-    Ok(web::block(move || db_edit_single_user(db, artist_id.into_inner(), item))
+    Ok(web::block(move || db_edit_single_artist(db, artist_id.into_inner(), item))
         .await
-        .map(|user| HttpResponse::Created().json(user))
+        .map(|artist| HttpResponse::Created().json(artist))
         .map_err(|_| HttpResponse::InternalServerError())?)
 }
 
-fn db_edit_single_user(db: web::Data<Pool>, artist_id: i64, item: web::Json<InputArtist>,) -> Result<Artist, diesel::result::Error> {
+fn db_edit_single_artist(db: web::Data<Pool>, artist_id: i64, item: web::Json<InputArtist>,) -> Result<Artist, diesel::result::Error> {
     let conn = db.get().unwrap();
     let artist = artists.find(artist_id).get_result::<Artist>(&conn)?;
     let update = UpdateArtist {
@@ -82,7 +82,7 @@ pub async fn delete_artist(db: web::Data<Pool>, artist_id: web::Path<i64>,) -> R
     Ok(
         web::block(move || db_delete_single_artist(db, artist_id.into_inner()))
             .await
-            .map(|user| HttpResponse::Ok().json(user))
+            .map(|artist| HttpResponse::Ok().json(artist))
             .map_err(|_| HttpResponse::InternalServerError())?,
     )
 }
