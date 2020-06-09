@@ -16,8 +16,8 @@ pub async fn get_artists(db: web::Data<Pool>) -> Result<HttpResponse, Error> {
         .map_err(|_| HttpResponse::InternalServerError())?)
 }
 
-fn db_get_all_artists(pool: web::Data<Pool>) -> Result<Vec<Artist>, diesel::result::Error> {
-    let conn = pool.get().unwrap();
+fn db_get_all_artists(db: web::Data<Pool>) -> Result<Vec<Artist>, diesel::result::Error> {
+    let conn = db.get().unwrap();
     let items = artists.load::<Artist>(&conn)?;
     Ok(items)
 }
@@ -32,8 +32,8 @@ pub async fn get_artist_by_id(db: web::Data<Pool>,artist_id: web::Path<i64>,) ->
     )
 }
 
-fn db_get_artist_by_id(pool: web::Data<Pool>, artist_id: i64) -> Result<Artist, diesel::result::Error> {
-    let conn = pool.get().unwrap();
+fn db_get_artist_by_id(db: web::Data<Pool>, artist_id: i64) -> Result<Artist, diesel::result::Error> {
+    let conn = db.get().unwrap();
     artists.find(artist_id).get_result::<Artist>(&conn)
 }
 
