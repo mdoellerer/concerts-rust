@@ -35,7 +35,7 @@ pub struct UpdateArtist<'a> {
 }
 
 
-#[derive(Debug, Serialize, Deserialize, Queryable)]
+#[derive(Debug, Serialize, Deserialize, Queryable, Identifiable)]
 pub struct Venue {
     pub id : i64,
     pub name : String,
@@ -55,8 +55,24 @@ pub struct NewVenue<'a> {
     pub updated_at : chrono::NaiveDateTime,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct InputVenue {
+    pub name: String,
+    pub city: String,
+    pub country: String,
+}
 
-#[derive(Debug, Serialize, Deserialize, Queryable)]
+#[derive(AsChangeset)]
+#[table_name="venues"]
+pub struct UpdateVenue<'a> {
+    pub name: &'a str,
+    pub city: &'a str,
+    pub country: &'a str,
+    pub updated_at : chrono::NaiveDateTime,
+}
+
+
+#[derive(Debug, Serialize, Deserialize, Queryable, Identifiable)]
 pub struct ConcertType {
     pub id : i64,
     pub dexcription : String,
@@ -98,7 +114,7 @@ pub struct NewConcert<'a> {
 }
 
 
-#[derive(Debug, Serialize, Deserialize, Queryable)]
+#[derive(Debug, Serialize, Deserialize, Queryable, Identifiable)]
 pub struct User {
     pub id : i64,
     pub name : String,
