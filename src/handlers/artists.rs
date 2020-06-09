@@ -1,30 +1,94 @@
-use super::models::{Artist, NewArtist};
+use super::models::{Artist, NewArtist, InputArtist, UpdateArtist};
 use super::schema::artists::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;
 use diesel::RunQueryDsl;
-use actix_web::{web, Error, HttpResponse, Responder};
+use actix_web::{web, Error, HttpResponse };
 use diesel::dsl::{delete, insert_into};
-use serde::{Deserialize, Serialize};
 use std::vec::Vec;
 
 
-pub async fn get_artists() -> impl Responder {
-    format!("GET LIST")
+// Handler for GET /artists
+pub async fn get_artists(db: web::Data<Pool>) -> Result<HttpResponse, Error> {
+    Ok(web::block(move || db_get_all_artists(db))
+        .await
+        .map(|user| HttpResponse::Ok().json(user))
+        .map_err(|_| HttpResponse::InternalServerError())?)
 }
 
-pub async fn add_artist() -> impl Responder {
-    format!("POST ONE")
+fn db_get_all_artists(pool: web::Data<Pool>) -> Result<Vec<Artist>, diesel::result::Error> {
+    let conn = pool.get().unwrap();
+    let items = artists.load::<Artist>(&conn)?;
+    Ok(items)
 }
 
-pub async fn get_artist_by_id() -> impl Responder {
-    format!("GET ONE")
+// Handler for GET /artists/{id}
+pub async fn get_artist_by_id(db: web::Data<Pool>,artist_id: web::Path<i64>,) -> Result<HttpResponse, Error> {
+    Ok(
+        web::block(move || db_get_artist_by_id(db, artist_id.into_inner()))
+            .await
+            .map(|user| HttpResponse::Ok().json(user))
+            .map_err(|_| HttpResponse::InternalServerError())?,
+    )
 }
 
-pub async fn edit_artist() -> impl Responder {
-    format!("EDIT ONE")
+fn db_get_artist_by_id(pool: web::Data<Pool>, artist_id: i64) -> Result<Artist, diesel::result::Error> {
+    let conn = pool.get().unwrap();
+    artists.find(artist_id).get_result::<Artist>(&conn)
 }
 
-pub async fn delete_artist() -> impl Responder {
-    format!("DELETE ONE")
+// Handler for POST /artists
+pub async fn add_artist(db: web::Data<Pool>, item: web::Json<InputArtist>,) -> Result<HttpResponse, Error> {
+    Ok(web::block(move || db_add_single_user(db, item))
+        .await
+        .map(|user| HttpResponse::Created().json(user))
+        .map_err(|_| HttpResponse::InternalServerError())?)
+}
+
+fn db_add_single_user(db: web::Data<Pool>, item: web::Json<InputArtist>,) -> Result<Artist, diesel::result::Error> {
+    let conn = db.get().unwrap();
+    let new_artist = NewArtist {
+        name: &item.name,
+        country: &item.country,
+        created_at: chrono::Local::now().naive_local(),
+        updated_at: chrono::Local::now().naive_local(),
+    };
+    let res = insert_into(artists).values(&new_artist).get_result(&conn)?;
+    Ok(res)
+}
+
+// Handler for PATCH /artists/{id}
+pub async fn edit_artist(db: web::Data<Pool>, artist_id: web::Path<i64>, item: web::Json<InputArtist>,) -> Result<HttpResponse, Error> {
+    Ok(web::block(move || db_edit_single_user(db, artist_id.into_inner(), item))
+        .await
+        .map(|user| HttpResponse::Created().json(user))
+        .map_err(|_| HttpResponse::InternalServerError())?)
+}
+
+fn db_edit_single_user(db: web::Data<Pool>, artist_id: i64, item: web::Json<InputArtist>,) -> Result<Artist, diesel::result::Error> {
+    let conn = db.get().unwrap();
+    let artist = artists.find(artist_id).get_result::<Artist>(&conn)?;
+    let update = UpdateArtist {
+        name: &item.name,
+        country: &item.country,
+        updated_at: chrono::Local::now().naive_local(),
+    };    
+    let res = diesel::update(&artist).set(&update).get_result(&conn)?;    
+    Ok(res)
+}
+
+// Handler for DELETE /artists/{id}
+pub async fn delete_artist(db: web::Data<Pool>, artist_id: web::Path<i64>,) -> Result<HttpResponse, Error> {
+    Ok(
+        web::block(move || db_delete_single_artist(db, artist_id.into_inner()))
+            .await
+            .map(|user| HttpResponse::Ok().json(user))
+            .map_err(|_| HttpResponse::InternalServerError())?,
+    )
+}
+
+fn db_delete_single_artist(db: web::Data<Pool>, artist_id: i64) -> Result<usize, diesel::result::Error> {
+    let conn = db.get().unwrap();
+    let count = delete(artists.find(artist_id)).execute(&conn)?;
+    Ok(count)
 }

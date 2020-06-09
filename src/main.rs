@@ -2,8 +2,8 @@
 #[macro_use]
 extern crate diesel;
 
-mod handlers;
-mod models;
+pub mod handlers;
+pub mod models;
 pub mod schema;
 
 use handlers::index;
@@ -12,6 +12,7 @@ use handlers::venues;
 use handlers::concerts;
 use handlers::concert_types;
 
+use dotenv;
 use actix_web::{dev::ServiceRequest, web, App, Error, HttpServer};
 use diesel::prelude::*;
 use diesel::r2d2::{self, ConnectionManager};
@@ -20,6 +21,7 @@ pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
+    dotenv::dotenv().ok();
     std::env::set_var("RUST_LOG", "actix_web=debug");
 
     let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
@@ -34,6 +36,7 @@ async fn main() -> std::io::Result<()> {
     // Start http server
     HttpServer::new(move || {
         App::new()
+            .data(pool.clone())
             .route("/", web::get().to(index::welcome))
 
             .route("/artists", web::get().to(artists::get_artists))
