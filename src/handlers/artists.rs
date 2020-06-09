@@ -87,8 +87,9 @@ pub async fn delete_artist(db: web::Data<Pool>, artist_id: web::Path<i64>,) -> R
     )
 }
 
-fn db_delete_single_artist(db: web::Data<Pool>, artist_id: i64) -> Result<usize, diesel::result::Error> {
+fn db_delete_single_artist(db: web::Data<Pool>, artist_id: i64) -> Result<String, diesel::result::Error> {
     let conn = db.get().unwrap();
     let count = delete(artists.find(artist_id)).execute(&conn)?;
-    Ok(count)
+    let message = format!("Total of deletions: {}", count.to_string());
+    Ok(message)
 }
