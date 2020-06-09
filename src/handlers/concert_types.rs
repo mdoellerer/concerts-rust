@@ -1,4 +1,4 @@
-use super::models::{ConcertType, NewConcertType, InputConcertType, UpdateConcertType};
+use super::models::concert_types::{ConcertType, NewConcertType, InputConcertType, UpdateConcertType};
 use super::schema::concert_types::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;

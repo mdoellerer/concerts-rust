@@ -1,4 +1,4 @@
-use super::models::{Concert, NewConcert, InputConcert, UpdateConcert};
+use super::models::concerts::{Concert, NewConcert, InputConcert, UpdateConcert};
 use super::schema::concerts::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;

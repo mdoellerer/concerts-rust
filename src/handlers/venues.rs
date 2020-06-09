@@ -1,4 +1,4 @@
-use super::models::{Venue, NewVenue, InputVenue, UpdateVenue};
+use super::models::venues::{Venue, NewVenue, InputVenue, UpdateVenue};
 use super::schema::venues::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;

@@ -1,4 +1,4 @@
-use super::models::{Artist, NewArtist, InputArtist, UpdateArtist};
+use super::models::artists::{Artist, NewArtist, InputArtist, UpdateArtist};
 use super::schema::artists::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;
