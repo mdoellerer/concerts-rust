@@ -5,6 +5,7 @@ extern crate diesel;
 pub mod handlers;
 pub mod models;
 pub mod schema;
+pub mod errors;
 
 use handlers::index;
 use handlers::artists;
