@@ -7,11 +7,7 @@ pub mod models;
 pub mod schema;
 pub mod errors;
 
-use handlers::index;
-use handlers::artists;
-use handlers::venues;
-use handlers::concerts;
-use handlers::concert_types;
+use handlers::*;
 
 use dotenv;
 use actix_web::{dev::ServiceRequest, web, App, Error, HttpServer};
@@ -39,6 +35,13 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .data(pool.clone())
             .route("/", web::get().to(index::welcome))
+
+            .route("/register", web::post().to(users::add_user))
+            .route("/register/", web::post().to(users::add_user))
+            .route("/login", web::post().to(users::user_login))
+            .route("/login/", web::post().to(users::user_login))
+            .route("/logout", web::post().to(users::user_logout))
+            .route("/logout/", web::post().to(users::user_logout))
 
             .route("/artists", web::get().to(artists::get_artists))
             .route("/artists/", web::get().to(artists::get_artists))

@@ -11,3 +11,5 @@ pub mod concerts;
 pub mod concert_types;
 
 pub mod venues;
+
+pub mod users;
