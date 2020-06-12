@@ -21,13 +21,6 @@ pub struct NewVenue<'a> {
     pub updated_at : chrono::NaiveDateTime,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct InputVenue {
-    pub name: String,
-    pub city: String,
-    pub country: String,
-}
-
 #[derive(AsChangeset)]
 #[table_name="venues"]
 pub struct UpdateVenue<'a> {

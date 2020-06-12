@@ -1,4 +1,4 @@
-use super::models::venues::{Venue, NewVenue, InputVenue, UpdateVenue};
+use super::models::venues::{Venue, NewVenue, UpdateVenue};
 use super::schema::venues::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;
@@ -6,6 +6,15 @@ use diesel::RunQueryDsl;
 use actix_web::{web, Error, HttpResponse };
 use diesel::dsl::{delete, insert_into};
 use std::vec::Vec;
+use serde::{Serialize, Deserialize};
+
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct InputVenue {
+    pub name: String,
+    pub city: String,
+    pub country: String,
+}
 
 // Handler for GET /venues/
 pub async fn get_venues(db: web::Data<Pool>) -> Result<HttpResponse, Error> {

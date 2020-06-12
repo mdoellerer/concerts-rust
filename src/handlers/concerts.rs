@@ -1,4 +1,4 @@
-use super::models::concerts::{Concert, NewConcert, InputConcert, UpdateConcert};
+use super::models::concerts::{Concert, NewConcert, UpdateConcert};
 use super::schema::concerts::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;
@@ -6,6 +6,17 @@ use diesel::RunQueryDsl;
 use actix_web::{web, Error, HttpResponse };
 use diesel::dsl::{delete, insert_into};
 use std::vec::Vec;
+use serde::{Serialize, Deserialize};
+
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct InputConcert {
+    pub concert_date: String,
+    pub setlist: String,
+    pub artist_id : i64,
+    pub venue_id : i64,
+    pub concert_type_id : i64,
+}
 
 // Handler for GET /concerts/
 pub async fn get_concerts(db: web::Data<Pool>) -> Result<HttpResponse, Error> {

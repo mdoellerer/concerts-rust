@@ -1,4 +1,4 @@
-use super::models::concert_types::{ConcertType, NewConcertType, InputConcertType, UpdateConcertType};
+use super::models::concert_types::{ConcertType, NewConcertType, UpdateConcertType};
 use super::schema::concert_types::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;
@@ -6,6 +6,13 @@ use diesel::RunQueryDsl;
 use actix_web::{web, Error, HttpResponse };
 use diesel::dsl::{delete, insert_into};
 use std::vec::Vec;
+use serde::{Serialize, Deserialize};
+
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct InputConcertType {
+    pub description: String,
+}
 
 // Handler for GET /concert_types/
 pub async fn get_concert_types(db: web::Data<Pool>) -> Result<HttpResponse, Error> {

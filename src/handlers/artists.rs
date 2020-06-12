@@ -1,4 +1,4 @@
-use super::models::artists::{Artist, NewArtist, InputArtist, UpdateArtist};
+use super::models::artists::{Artist, NewArtist, UpdateArtist};
 use super::schema::artists::dsl::*;
 use super::Pool;
 use diesel::QueryDsl;
@@ -6,6 +6,14 @@ use diesel::RunQueryDsl;
 use actix_web::{web, Error, HttpResponse };
 use diesel::dsl::{delete, insert_into};
 use std::vec::Vec;
+use serde::{Serialize, Deserialize};
+
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct InputArtist {
+    pub name: String,
+    pub country: String,
+}
 
 
 // Handler for GET /artists

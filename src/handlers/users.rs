@@ -1,4 +1,4 @@
-use super::models::users::{User, NewUser, InputUser, UpdateUser, LoginResponse};
+use super::models::users::{User, NewUser, UpdateUser };
 use super::schema::users::dsl::*;
 use super::Pool;
 use crypto::digest::Digest;
@@ -10,7 +10,21 @@ use actix_web::{web, Error, HttpResponse };
 use diesel::dsl::{insert_into};
 use rand::{thread_rng, Rng};
 use rand::distributions::Alphanumeric;
+use serde::{Serialize, Deserialize};
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct InputUser {
+    pub name: String,
+    pub email: String,
+    pub password: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct LoginResponse {
+    pub message: String,
+    pub email: String,
+    pub token: String,
+}
 
 
 // Handler for POST /login/

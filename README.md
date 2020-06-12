@@ -12,6 +12,9 @@ Simple API application created originally in Laravel, now being implemented also
 * Clone or download this repository
 
 * Set a .env file with the connection data to your database. 
+```
+  echo DATABASE_URL=postgres://username:password@localhost/database_name > .env
+```
 
 * Go inside of directory where the file `cargo.toml` is located and
 

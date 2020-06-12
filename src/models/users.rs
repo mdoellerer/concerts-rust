@@ -27,25 +27,10 @@ pub struct NewUser<'a> {
     pub api_token : Option<&'a str>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct InputUser {
-    pub name: String,
-    pub email: String,
-    pub password: String,
-}
-
 #[derive(AsChangeset)]
 #[changeset_options(treat_none_as_null="true")]
 #[table_name="users"]
 pub struct UpdateUser<'a> {
     pub updated_at : chrono::NaiveDateTime,
     pub api_token: Option<&'a str>,
-}
-
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct LoginResponse {
-    pub message: String,
-    pub email: String,
-    pub token: String,
 }

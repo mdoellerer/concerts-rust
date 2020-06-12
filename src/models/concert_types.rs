@@ -17,11 +17,6 @@ pub struct NewConcertType<'a> {
     pub updated_at : chrono::NaiveDateTime,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct InputConcertType {
-    pub description: String,
-}
-
 #[derive(AsChangeset)]
 #[table_name="concert_types"]
 pub struct UpdateConcertType<'a> {

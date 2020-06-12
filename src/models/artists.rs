@@ -19,12 +19,6 @@ pub struct NewArtist<'a> {
     pub updated_at : chrono::NaiveDateTime,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct InputArtist {
-    pub name: String,
-    pub country: String,
-}
-
 #[derive(AsChangeset)]
 #[table_name="artists"]
 pub struct UpdateArtist<'a> {

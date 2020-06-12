@@ -8,6 +8,11 @@ pub enum ServiceError {
 
     #[display(fmt = "BadRequest: {}", _0)]
     BadRequest(String),
+
+    #[display(fmt = "Unauthorized")]
+    Unauthorized,
+
+    
 }
 
 impl ResponseError for ServiceError {
@@ -16,7 +21,8 @@ impl ResponseError for ServiceError {
             ServiceError::InternalServerError => {
                 HttpResponse::InternalServerError().json("Internal Server Error, Please try later")
             }
-            ServiceError::BadRequest(ref message) => HttpResponse::BadRequest().json(message)
+            ServiceError::BadRequest(ref message) => HttpResponse::BadRequest().json(message),
+            ServiceError::Unauthorized => HttpResponse::Unauthorized().json("Unauthorized"),
         }
     }
 }

@@ -25,15 +25,6 @@ pub struct NewConcert<'a> {
     pub venue_id : i64,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct InputConcert {
-    pub concert_date: String,
-    pub setlist: String,
-    pub artist_id : i64,
-    pub venue_id : i64,
-    pub concert_type_id : i64,
-}
-
 #[derive(AsChangeset)]
 #[table_name="concerts"]
 pub struct UpdateConcert<'a> {
